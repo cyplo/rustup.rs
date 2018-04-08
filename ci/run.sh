@@ -7,6 +7,10 @@ echo "toolchain versions\n------------------"
 rustc -vV
 cargo -vV
 
+if [ ! -z "$CHECK_RUSTFMT" ]; then
+    cargo fmt --all -- --write-mode=diff
+fi
+
 cargo build --locked -v --release --target $TARGET
 
 if [ -z "$SKIP_TESTS" ]; then

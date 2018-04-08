@@ -7,6 +7,7 @@ mkdir -p target
 DOCKER="$1"
 TARGET="$2"
 SKIP_TESTS="$3"
+CHECK_RUSTFMT="$4"
 
 if [ -f "ci/docker/$DOCKER/Dockerfile" ]; then
   docker build -t "$DOCKER" "ci/docker/$DOCKER/"
@@ -21,6 +22,7 @@ docker run \
   --workdir /src \
   --env TARGET=$TARGET \
   --env SKIP_TESTS=$SKIP_TESTS \
+  --env CHECK_RUSTFMT=$CHECK_RUSTFMT\
   $DOCKER \
   ci/run-docker.sh
 

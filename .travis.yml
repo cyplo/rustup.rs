@@ -6,6 +6,12 @@ language: rust
 
 matrix:
   include:
+    # Separate build to detect if the code is formatted correctly
+    - os: linux
+      env: TARGET=x86_64-unknown-linux-gnu
+           DOCKER=alexcrichton/rust-slave-dist:2015-10-20b
+           CHECK_RUSTFMT=1
+           NO_ADD=1
     # Linux builds use the `rust-slave-dist` image so we link them against a
     # "super old glibc" to ensure that it runs on as many platforms as possible.
     - os: linux
@@ -124,6 +130,7 @@ branches:
 
 install:
   - if [ -z "$NO_ADD" ]; then rustup target add $TARGET; fi
+  - rustup component add rustfmt-preview 
 
 script:
   - mkdir -p target/$TARGET;
@@ -134,7 +141,7 @@ script:
         echo 'skipping master build';
     else
         if [ ! -z "$DOCKER" ]; then
-            sh ci/build-run-docker.sh "$DOCKER" "$TARGET" "$SKIP_TESTS";
+            sh ci/build-run-docker.sh "$DOCKER" "$TARGET" "$SKIP_TESTS" "$CHECK_RUSTFMT";
         else
             PATH=$HOME/rust/bin:$PATH sh ci/run.sh;
         fi
