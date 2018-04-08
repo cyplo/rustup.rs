@@ -52,7 +52,8 @@ error_chain! {
             dest: PathBuf,
         } {
             description("could not copy file")
-            display("could not copy {} file from '{}' to '{}'", name, src.display(), dest.display())
+            display("could not copy {} file from '{}' to '{}'",
+                    name, src.display(), dest.display())
         }
         RenamingFile {
             name: &'static str,
@@ -60,7 +61,8 @@ error_chain! {
             dest: PathBuf,
         } {
             description("could not rename file")
-            display("could not rename {} file from '{}' to '{}'", name, src.display(), dest.display())
+            display("could not rename {} file from '{}' to '{}'",
+                    name, src.display(), dest.display())
         }
         RenamingDirectory {
             name: &'static str,
